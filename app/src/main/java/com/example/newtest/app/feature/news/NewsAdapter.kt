@@ -14,13 +14,14 @@ import com.example.newtest.data.model.NewsEntity
 import com.example.newtest.data.model.NewsItem
 import com.example.newtest.data.model.NewsModel
 import com.example.newtest.data.model1.MovieMode
+import com.example.newtest.data.model1.ProductionCompany
 import kotlinx.android.synthetic.main.movi_item.view.*
 import kotlinx.android.synthetic.main.news_item.view.*
 
 
-class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
+class NewsAdapter(context: Context, private val action: (ProductionCompany) -> Unit) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>(), Filterable{
-    private var myList = mutableListOf<MovieMode>()
+    private var myList = mutableListOf<ProductionCompany>()
     private val inflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +38,7 @@ class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
     }
 
 
-    fun updateNews(newList: List<MovieMode>) {
+    fun updateNews(newList: List<ProductionCompany>) {
         myList.clear()
         myList.addAll(newList)
         this.notifyDataSetChanged()
@@ -48,11 +49,11 @@ class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
         notifyDataSetChanged()
     }
 
-    class ViewHolder(contienerView: View, private val action: (MovieMode) -> Unit) :
+    class ViewHolder(contienerView: View, private val action: (ProductionCompany) -> Unit) :
         RecyclerView.ViewHolder(contienerView) {
-        private var selectSubject: MovieMode? = null
+        private var selectSubject: ProductionCompany? = null
 
-        fun onBind(newsItem: MovieMode) {
+        fun onBind(newsItem: ProductionCompany) {
             this.selectSubject = newsItem
 
             itemView.apply {
@@ -60,13 +61,14 @@ class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
 
                 Glide.with(itemView)
                     .load(
-                            newsItem.posterPath
+                            newsItem.logoPath
+
                     )
                     .centerCrop()
                     .error(R.drawable.newss)
                     .into(iv_news_item_image)
-                tv_film_name.text = newsItem.spokenLanguages!![0].englishName
-                tv_film_about.text = newsItem.productionCompanies!![0].name
+                tv_film_name.text = newsItem.name
+                tv_film_about.text = newsItem.originCountry
             }
 
         }
@@ -78,11 +80,11 @@ class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if (charSearch.isEmpty()) {
-                    myList = myList as ArrayList<MovieMode>
+                    myList = myList as ArrayList<ProductionCompany>
                 } else {
-                    val resultList = ArrayList<MovieMode>()
+                    val resultList = ArrayList<ProductionCompany>()
                     for (row in myList) {
-                        if (row.title!!.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.name!!.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             resultList.add(row)
                         }
                     }
@@ -94,7 +96,7 @@ class NewsAdapter(context: Context, private val action: (MovieMode) -> Unit) :
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                myList = results?.values as ArrayList<MovieMode>
+                myList = results?.values as ArrayList<ProductionCompany>
                 notifyDataSetChanged()
             }
         }

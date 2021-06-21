@@ -12,6 +12,7 @@ import com.example.newtest.R
 import com.example.newtest.app.feature.news.NewsAdapter
 import com.example.newtest.data.model.NewsEntity
 import com.example.newtest.data.model1.MovieMode
+import com.example.newtest.data.model1.ProductionCompany
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -29,7 +30,7 @@ class NewsFragment : MvpAppCompatFragment(), NewsView {
     @Inject
     lateinit var controllerNews: RouterCOntroller
 
-    private var newsUpdate: List<MovieMode>?= null
+    private var newsUpdate: List<ProductionCompany>?= null
 
     private val presenter by moxyPresenter { provider }
 
@@ -81,7 +82,7 @@ class NewsFragment : MvpAppCompatFragment(), NewsView {
 //        }
     }
 
-    override fun onNewsSuccess(news: List<MovieMode>) {
+    override fun onNewsSuccess(news: List<ProductionCompany>) {
         pb_loading.visibility = View.GONE
 //        newsUpdate = news
         adapter?.updateNews(news)
@@ -91,8 +92,8 @@ class NewsFragment : MvpAppCompatFragment(), NewsView {
         pb_loading.visibility = View.GONE
     }
 
-    override fun action(newsItem: MovieMode) {
-        presenter.openDeta(newsItem.title!!, newsItem.title, newsItem.title)
+    override fun action(newsItem: ProductionCompany) {
+        presenter.openDeta(newsItem.name!!, newsItem.name, newsItem.name)
     }
 
     override fun actionTitle(title: String, url: String, decrict: String) {
